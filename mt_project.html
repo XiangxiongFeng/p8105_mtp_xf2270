@@ -399,7 +399,8 @@ scale_fill_discrete = scale_fill_viridis_d</code></pre>
 <p>#Problem one</p>
 <pre class="r"><code>zip_code =
   read.csv(&#39;data/Zip Codes.csv&#39;) |&gt;
-  mutate(borough = County.Name)
+  mutate(borough = County.Name)|&gt;
+  rename(ZIPCODE = ZipCode)
 change_address = 
   read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;)|&gt;
   separate(MONTH, into = c(&#39;year&#39;,&#39;month&#39;), sep = 4)|&gt;
@@ -414,6 +415,30 @@ prem in. There are total 2383 observations. The ‘Zip Codes’ is a
 supplementary dataset which has important variables such as name of
 county and its neighborhood. There are 8 variables and
 324observation.</p>
+<pre class="r"><code>#data combination
+full_data = 
+  full_join(change_address,zip_code, by =&#39;ZIPCODE&#39;)
+
+
+#number of unique zipcode
+full_data |&gt;
+  select(ZIPCODE)|&gt;
+  distinct()|&gt;
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1   320</code></pre>
+<pre class="r"><code>#number of unique neighborhood
+full_data |&gt;
+  select(Neighborhood)|&gt;
+  drop_na()|&gt;
+  distinct()|&gt;
+  count()</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##       n
+##   &lt;int&gt;
+## 1    42</code></pre>
 
 
 

@@ -37,7 +37,8 @@ scale_fill_discrete = scale_fill_viridis_d
 ```{r}
 zip_code =
   read.csv('data/Zip Codes.csv') |>
-  mutate(borough = County.Name)
+  mutate(borough = County.Name)|>
+  rename(ZIPCODE = ZipCode)
 change_address = 
   read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx')|>
   separate(MONTH, into = c('year','month'), sep = 4)|>
@@ -49,4 +50,31 @@ change_address =
 The two raw datasets include 'USPS CHANGES OF ADDRESS NYC' and 'Zip Codes'.
 The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
 in New York City between 2018 and 2022. The data includes variables about date, zip code, city, total prem out and total prem in. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important variables such as name of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`observation.
+
+
+```{r}
+#data combination
+full_data = 
+  full_join(change_address,zip_code, by ='ZIPCODE')
+
+
+#number of unique zipcode
+full_data |>
+  select(ZIPCODE)|>
+  distinct()|>
+  count()
+  
+#number of unique neighborhood
+full_data |>
+  select(Neighborhood)|>
+  drop_na()|>
+  distinct()|>
+  count()
+  
+
+
+```
+
+
+
 
