@@ -2,10 +2,10 @@
 title: "MT_project"
 author: "Xiangxiong Feng"
 date: "2023-10-23"
-output: html_document
+output: github_document
 ---
 
-```{r}
+```{r,echo=FALSE}
 library(tidyverse)
 library(ggridges)
 library(patchwork)
@@ -34,7 +34,7 @@ scale_fill_discrete = scale_fill_viridis_d
 #Problem one
 
 
-```{r}
+```{r, echo=FALSE}
 zip_code =
   read.csv('data/Zip Codes.csv') |>
   mutate(borough = County.Name)|>
@@ -56,7 +56,9 @@ change_address =
   separate(MONTH, into = c('year','month'), sep = 4)|>
   mutate(
     month = str_replace(month,'\\-',''),
-    net_change = `TOTAL PERM IN`- `TOTAL PERM OUT`)
+    net_change = `TOTAL PERM IN`- `TOTAL PERM OUT`)|>
+  separate(month, into = c('month', 'day'),sep = 2 )|>
+  select(-day)
   
 
 ```
@@ -64,10 +66,10 @@ change_address =
 
 The two raw datasets include 'USPS CHANGES OF ADDRESS NYC' and 'Zip Codes'.
 The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
-in New York City between 2018 and 2022. The data includes variables about date, zip code, city, total prem out and total prem in. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important variables such as name of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`observation.
+in New York City between 2018 and 2022. The data includes `r ncol(change_address)`variables such as zip code. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important variables such as name of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`observation.
 
 
-```{r}
+```{r, echo=FALSE}
 #data combination
 full_data = 
   full_join(change_address,zip_code, by ='ZIPCODE')
@@ -90,7 +92,7 @@ full_data |>
 
 ```
 #
-```{r}
+```{r, echo=FALSE}
 full_data |>
   filter(borough == 'Queens')|>
   group_by(CITY)|>
@@ -110,7 +112,7 @@ There are 60 months between 2018 and 2022. However, some of ZIP codes have fewer
 
 # problem 2
 
-```{r}
+```{r, echo=FALSE}
 #table showing the average of net_change in each borough and year
 full_data |>
   group_by(borough, year)|>
@@ -125,7 +127,7 @@ full_data |>
 A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. The overall population size is dercreasing.
 
 
-```{r}
+```{r, echo=FALSE}
 #a table showing, across all observed data, the five lowest values of net_change
 full_data |>
   arrange(net_change)|>
@@ -136,7 +138,7 @@ full_data |>
 
 The table above shows the five lowest values of net change. We can see that all see that all these five observation are made in 2020, which is corresponding to our last table. The neighborhood of three observation are 'Gramercy Park and Murray Hill'.
 
-```{r}
+```{r, echo=FALSE}
 full_data |>
   filter(year%in% c('2018', '2019'))|>
   arrange(desc(net_change))|>
@@ -147,18 +149,24 @@ full_data |>
 The table above shows the five highest values of net change across data observed before 2020.
 
 
-```{r}
-full_data|>
-  group_by(borough, month)|>
+```{r, echo=FALSE}
+overall_average_net_change =
+  full_data|>
+  group_by(borough, month,Neighborhood)|>
   summarize(Average_Net_Change = mean(net_change))|>
-  ggplot(aes(x= month, y= Average_Net_Change))+ geom_point(aes(color = borough))
- 
-  
-  
-  
+  drop_na()|>
+  ggplot(aes(x= month, y= Average_Net_Change))+ geom_point(aes(color = borough))+
+  facet_grid(.~borough)+
+  labs(title = 'overall average net change across boroughs')
+overall_average_net_change
+ggsave("results/overall_average_net_change.pdf", overall_average_net_change, width = 8, height = 5)
 ```
 
 
 
+
+```{r, echo=FALSE}
+wordcountaddin::text_stats("mt_project.Rmd")
+```
 
 
