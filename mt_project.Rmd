@@ -74,7 +74,21 @@ full_data |>
 
 
 ```
+#
+```{r}
+full_data |>
+  filter(borough == 'Queens')|>
+  group_by(CITY)|>
+  summarise(Count = n())|>
+  arrange(desc(Count))|>
+  knitr::kable()
 
-
+full_data |>
+  filter(borough == 'New York')|>
+  group_by(CITY)|>
+  summarise(Count = n())|>
+  arrange(desc(Count))|>
+  knitr::kable()
+```
 
 

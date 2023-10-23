@@ -439,6 +439,305 @@ full_data |&gt;
 ##       n
 ##   &lt;int&gt;
 ## 1    42</code></pre>
+<div id="section" class="section level1">
+<h1></h1>
+<pre class="r"><code>full_data |&gt;
+  filter(borough == &#39;Queens&#39;)|&gt;
+  group_by(CITY)|&gt;
+  summarise(Count = n())|&gt;
+  arrange(desc(Count))|&gt;
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">CITY</th>
+<th align="right">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">JAMAICA</td>
+<td align="right">75</td>
+</tr>
+<tr class="even">
+<td align="left">FLUSHING</td>
+<td align="right">61</td>
+</tr>
+<tr class="odd">
+<td align="left">ASTORIA</td>
+<td align="right">47</td>
+</tr>
+<tr class="even">
+<td align="left">QUEENS VILLAGE</td>
+<td align="right">36</td>
+</tr>
+<tr class="odd">
+<td align="left">LONG ISLAND CITY</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td align="left">BAYSIDE</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="left">EAST ELMHURST</td>
+<td align="right">24</td>
+</tr>
+<tr class="even">
+<td align="left">OZONE PARK</td>
+<td align="right">24</td>
+</tr>
+<tr class="odd">
+<td align="left">FRESH MEADOWS</td>
+<td align="right">23</td>
+</tr>
+<tr class="even">
+<td align="left">FAR ROCKAWAY</td>
+<td align="right">21</td>
+</tr>
+<tr class="odd">
+<td align="left">RIDGEWOOD</td>
+<td align="right">17</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">17</td>
+</tr>
+<tr class="odd">
+<td align="left">LITTLE NECK</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">FLORAL PARK</td>
+<td align="right">13</td>
+</tr>
+<tr class="odd">
+<td align="left">BELLEROSE</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">BROOKLYN</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">COLLEGE POINT</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">CORONA</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">ELMHURST</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">FOREST HILLS</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">HOLLIS</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">HOWARD BEACH</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">KEW GARDENS</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">MIDDLE VILLAGE</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">REGO PARK</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">RICHMOND HILL</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">ROSEDALE</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">SOUTH RICHMOND HILL</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">WOODHAVEN</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">WOODSIDE</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="left">CAMBRIA HEIGHTS</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">GLEN OAKS</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">JACKSON HEIGHTS</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">WHITESTONE</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">ARVERNE</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">MASPETH</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">OAKLAND GARDENS</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">ROCKAWAY PARK</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">SAINT ALBANS</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">SOUTH OZONE PARK</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="left">SUNNYSIDE</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="left">LAURELTON</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">ROCKAWAY BEACH</td>
+<td align="right">9</td>
+</tr>
+<tr class="even">
+<td align="left">BREEZY POINT</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">DOUGLASTON</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">ROCKAWAY POINT</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">BRIARWOOD</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">BROAD CHANNEL</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">GLENDALE</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="left">SPRINGFIELD GARDENS</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="left">BAYSIDE HILLS</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">BELLE HARBOR</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">LONG IS CITY</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">AUBURNDALE</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">BEECHHURST</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CAMBRIA HTS</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">JACKSON HTS</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">KEW GARDENS HILLS</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">S OZONE PARK</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">ST ALBANS</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>full_data |&gt;
+  filter(borough == &#39;New York&#39;)|&gt;
+  group_by(CITY)|&gt;
+  summarise(Count = n())|&gt;
+  arrange(desc(Count))|&gt;
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">CITY</th>
+<th align="right">Count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NEW YORK</td>
+<td align="right">705</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">75</td>
+</tr>
+<tr class="odd">
+<td align="left">BRONX</td>
+<td align="right">12</td>
+</tr>
+<tr class="even">
+<td align="left">BROOKLYN</td>
+<td align="right">11</td>
+</tr>
+<tr class="odd">
+<td align="left">BROOKLYN HEIGHTS</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">CANAL STREET</td>
+<td align="right">1</td>
+</tr>
+</tbody>
+</table>
+</div>
 
 
 
