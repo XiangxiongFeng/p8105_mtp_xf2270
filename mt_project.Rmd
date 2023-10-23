@@ -1,5 +1,5 @@
 ---
-title: "MT_project"
+title: "MT_Project"
 author: "Xiangxiong Feng"
 date: "2023-10-23"
 output: github_document
@@ -31,10 +31,11 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 ```
 
-#Problem one
+# Part-1
 
 
 ```{r, echo=FALSE}
+#import data and clean data
 zip_code =
   read.csv('data/Zip Codes.csv') |>
   mutate(borough = County.Name)|>
@@ -59,59 +60,66 @@ change_address =
     net_change = `TOTAL PERM IN`- `TOTAL PERM OUT`)|>
   separate(month, into = c('month', 'day'),sep = 2 )|>
   select(-day)
-  
-
-```
 
 
-The two raw datasets include 'USPS CHANGES OF ADDRESS NYC' and 'Zip Codes'.
-The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
-in New York City between 2018 and 2022. The data includes `r ncol(change_address)`variables such as zip code. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important variables such as name of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`observation.
-
-
-```{r, echo=FALSE}
 #data combination
 full_data = 
-  full_join(change_address,zip_code, by ='ZIPCODE')
-
-
-#number of unique zipcode
-full_data |>
-  select(ZIPCODE)|>
-  distinct()|>
-  count()
-  
-#number of unique neighborhood
-full_data |>
-  select(Neighborhood)|>
-  drop_na()|>
-  distinct()|>
-  count()
-  
-
-
+  full_join(change_address,zip_code, by ='ZIPCODE')|>
+  select(-State.FIPS, -County.Code, -County.FIPS, -County.Name, -File.Date)|>
+  mutate(
+    borough = str_replace(borough, 'New York', 'Manhattan')
+  )
 ```
-#
+
+The two raw datasets include `USPS CHANGES OF ADDRESS NYC` and `Zip Codes`.
+The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
+in New York City between 2018 and 2022. The data includes `r ncol(change_address)` 
+variables such as zip code. There are total `r nrow(change_address)` observations. 
+The 'Zip Codes' is a supplementary dataset which has important variables such as name 
+of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`
+ observation. The main goal of this report is to have a insights into trends in moving
+ and changes of population size in different location in NYC.
+
+The first part is data cleaning and combination. For COA data,  a variable `year`
+is added, and a variable `net_change` is created by subtracting outbound COAs from
+inbound COAs. For Zip Codes data, a variable `borough` is created using county 
+names. Then, the two datasets are combined together and irrelevant variables are
+dropped. The resulting tidy dataset has `r nrow(full_data)` observation and `r ncol(full_data)`
+variables. There are `r full_data |>select(ZIPCODE)|>distinct()|>count()` unique ZIP codes
+and `r full_data |>select(Neighborhood)|>drop_na()|>distinct()|>count()` unique neighborhood.
+
+Then the `city` variable and `borough variable is compared.  The table below shows the 
+most common values of city in the borough of Queens.
+
 ```{r, echo=FALSE}
+#most common values of city in the borough of Queens
 full_data |>
   filter(borough == 'Queens')|>
   group_by(CITY)|>
   summarise(Count = n())|>
   arrange(desc(Count))|>
   knitr::kable()
+```
 
+
+The table below shows the 
+most common values of city in the borough of Manhattan(New York County).
+```{r, echo=FALSE}
+#most common values of city in the borough of Manhattan
 full_data |>
-  filter(borough == 'New York')|>
+  filter(borough == 'Manhattan')|>
   group_by(CITY)|>
   summarise(Count = n())|>
   arrange(desc(Count))|>
   knitr::kable()
 ```
+
+
 There are 60 months between 2018 and 2022. However, some of ZIP codes have fewer 60 observations. The reason is that the records of some  ZIP codes for cerain months are missing in raw COA data.  Moreover, most of these are also missing neighborhood values, which are not given by the origin Zip Codes data. For example, the records for ZIP code 10008 for certain months are missing, and this ZIP cod has fewer 60 observations. The neighborhood of this Zip code is also missing.
 
 
-# problem 2
-
+# Part-2
+A table showing the average of `net_change` in each borough and year is created and shown below. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. The overall population size is dercreasing.
 ```{r, echo=FALSE}
 #table showing the average of net_change in each borough and year
 full_data |>
@@ -120,12 +128,11 @@ full_data |>
   drop_na()|>
   knitr::kable(digits = 2)
   
-
-  
 ```
+  
 
-A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. The overall population size is dercreasing.
 
+The table below shows the five lowest values of net change. We can see that all see that all these five observation are made in 2020, which is corresponding to our last table. The reason could be population loss and death caused COVID pandemic.
 
 ```{r, echo=FALSE}
 #a table showing, across all observed data, the five lowest values of net_change
@@ -136,9 +143,9 @@ full_data |>
   knitr::kable()
 ```
 
-The table above shows the five lowest values of net change. We can see that all see that all these five observation are made in 2020, which is corresponding to our last table. The neighborhood of three observation are 'Gramercy Park and Murray Hill'.
-
+The table below shows the five highest values of net change across data observed before 2020. These neighborhoods could have higher commerical value and value of further development.
 ```{r, echo=FALSE}
+#five highest values of net change across data observed before 2020
 full_data |>
   filter(year%in% c('2018', '2019'))|>
   arrange(desc(net_change))|>
@@ -146,10 +153,11 @@ full_data |>
   select(ZIPCODE, Neighborhood, year, month, net_change)|>
   knitr::kable()
 ```
-The table above shows the five highest values of net change across data observed before 2020.
 
 
+A plot of overall average net change across boroughs at neighborhood-level is shown below. For the plot, we can see that Manhattan experienced the largest population loss during April to September. There are many potential reasons such as Many college students graduating and at this time. There are some limitations of this dataset for understanding changes in ZIP code level population sizes.For example, several different ZIP codes are used in one same neighborhood. 
 ```{r, echo=FALSE}
+#verall average net change across boroughs at neighborhood-level
 overall_average_net_change =
   full_data|>
   group_by(borough, month,Neighborhood)|>
@@ -165,8 +173,13 @@ ggsave("results/overall_average_net_change.pdf", overall_average_net_change, wid
 
 
 
+
+
+
 ```{r, echo=FALSE}
 wordcountaddin::text_stats("mt_project.Rmd")
 ```
 
-
+# appendix
+```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE}
+```
