@@ -105,5 +105,26 @@ full_data |>
   arrange(desc(Count))|>
   knitr::kable()
 ```
+There are 60 months between 2018 and 2022. However, some of ZIP codes have fewer 60 observations. The reason is that the records of some  ZIP codes for cerain months are missing in raw COA data.  Moreover, most of these are also missing neighborhood values, which are not given by the origin Zip Codes data. For example, the records for ZIP code 10008 for certain months are missing, and this ZIP cod has fewer 60 observations. The neighborhood of this Zip code is also missing.
+
+
+# problem 2
+
+```{r}
+full_data |>
+  group_by(borough, year)|>
+  summarize(Average_net_change = mean(net_change))|>
+  drop_na()|>
+  knitr::kable(digits = 2)
+  
+
+  
+```
+
+A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. 
+
+
+
+
 
 
