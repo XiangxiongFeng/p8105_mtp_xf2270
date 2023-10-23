@@ -32,18 +32,21 @@ scale_fill_discrete = scale_fill_viridis_d
 ```
 
 #Problem one
+
+
 ```{r}
-#upload data
+zip_code =
+  read.csv('data/Zip Codes.csv') |>
+  mutate(borough = County.Name)
 change_address = 
-  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx')
-zip_code = 
-  read.csv('data/Zip Codes.csv')
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx')|>
+  separate(MONTH, into = c('year','month'), sep = 4)|>
+  mutate(
+    month = str_replace(month,'\\-',''),
+    net_change = `TOTAL PERM IN`- `TOTAL PERM OUT`)
 ```
 
 The two raw datasets include 'USPS CHANGES OF ADDRESS NYC' and 'Zip Codes'.
 The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
-in New York City between 2018 and 2022. The data includes factors about date, zip code, city, total prem out and total prem in. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important factors such as name of county and its neighborhood. There are `r ncol(zip_code)` factors and `r nrow(zip_code)`observation.
-
-
-
+in New York City between 2018 and 2022. The data includes variables about date, zip code, city, total prem out and total prem in. There are total `r nrow(change_address)` observations. The 'Zip Codes' is a supplementary dataset which has important variables such as name of county and its neighborhood. There are `r ncol(zip_code)` variables and `r nrow(zip_code)`observation.
 
