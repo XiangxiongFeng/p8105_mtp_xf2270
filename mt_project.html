@@ -401,8 +401,20 @@ scale_fill_discrete = scale_fill_viridis_d</code></pre>
   read.csv(&#39;data/Zip Codes.csv&#39;) |&gt;
   mutate(borough = County.Name)|&gt;
   rename(ZIPCODE = ZipCode)
+
+change_address_2018 = 
+  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;, sheet = 1)
+change_address_2019 = 
+  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;, sheet = 2)
+change_address_2020 = 
+  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;, sheet = 3)
+change_address_2021 = 
+  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;, sheet = 4)
+change_address_2022 = 
+  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;, sheet = 5)
+
 change_address = 
-  read_excel(&#39;data/USPS CHANGE OF ADDRESS NYC.xlsx&#39;)|&gt;
+  bind_rows(change_address_2018,change_address_2019,change_address_2020,change_address_2021,change_address_2022)|&gt;
   separate(MONTH, into = c(&#39;year&#39;,&#39;month&#39;), sep = 4)|&gt;
   mutate(
     month = str_replace(month,&#39;\\-&#39;,&#39;&#39;),
@@ -411,7 +423,7 @@ change_address =
 Codes’. The ‘USPS CHANGES OF ADDRESS NYC’ shows the aggregate Change of
 Address (COA) data in New York City between 2018 and 2022. The data
 includes variables about date, zip code, city, total prem out and total
-prem in. There are total 2383 observations. The ‘Zip Codes’ is a
+prem in. There are total 11845 observations. The ‘Zip Codes’ is a
 supplementary dataset which has important variables such as name of
 county and its neighborhood. There are 8 variables and
 324observation.</p>
@@ -457,222 +469,254 @@ full_data |&gt;
 <tbody>
 <tr class="odd">
 <td align="left">JAMAICA</td>
-<td align="right">75</td>
+<td align="right">372</td>
 </tr>
 <tr class="even">
 <td align="left">FLUSHING</td>
-<td align="right">61</td>
+<td align="right">309</td>
 </tr>
 <tr class="odd">
 <td align="left">ASTORIA</td>
-<td align="right">47</td>
+<td align="right">230</td>
 </tr>
 <tr class="even">
 <td align="left">QUEENS VILLAGE</td>
-<td align="right">36</td>
+<td align="right">165</td>
 </tr>
 <tr class="odd">
-<td align="left">LONG ISLAND CITY</td>
-<td align="right">25</td>
+<td align="left">BAYSIDE</td>
+<td align="right">135</td>
 </tr>
 <tr class="even">
-<td align="left">BAYSIDE</td>
-<td align="right">24</td>
+<td align="left">LONG ISLAND CITY</td>
+<td align="right">120</td>
 </tr>
 <tr class="odd">
 <td align="left">EAST ELMHURST</td>
-<td align="right">24</td>
+<td align="right">117</td>
 </tr>
 <tr class="even">
 <td align="left">OZONE PARK</td>
-<td align="right">24</td>
+<td align="right">116</td>
 </tr>
 <tr class="odd">
 <td align="left">FRESH MEADOWS</td>
-<td align="right">23</td>
+<td align="right">107</td>
 </tr>
 <tr class="even">
 <td align="left">FAR ROCKAWAY</td>
-<td align="right">21</td>
-</tr>
-<tr class="odd">
-<td align="left">RIDGEWOOD</td>
-<td align="right">17</td>
-</tr>
-<tr class="even">
-<td align="left">NA</td>
-<td align="right">17</td>
+<td align="right">102</td>
 </tr>
 <tr class="odd">
 <td align="left">LITTLE NECK</td>
-<td align="right">16</td>
+<td align="right">79</td>
 </tr>
 <tr class="even">
+<td align="left">RIDGEWOOD</td>
+<td align="right">70</td>
+</tr>
+<tr class="odd">
 <td align="left">FLORAL PARK</td>
-<td align="right">13</td>
-</tr>
-<tr class="odd">
-<td align="left">BELLEROSE</td>
-<td align="right">12</td>
+<td align="right">68</td>
 </tr>
 <tr class="even">
-<td align="left">BROOKLYN</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">COLLEGE POINT</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">CORONA</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
 <td align="left">ELMHURST</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">FOREST HILLS</td>
-<td align="right">12</td>
-</tr>
-<tr class="odd">
-<td align="left">HOLLIS</td>
-<td align="right">12</td>
-</tr>
-<tr class="even">
-<td align="left">HOWARD BEACH</td>
-<td align="right">12</td>
+<td align="right">63</td>
 </tr>
 <tr class="odd">
 <td align="left">KEW GARDENS</td>
-<td align="right">12</td>
+<td align="right">62</td>
 </tr>
 <tr class="even">
-<td align="left">MIDDLE VILLAGE</td>
-<td align="right">12</td>
+<td align="left">BELLEROSE</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="left">BROOKLYN</td>
+<td align="right">60</td>
+</tr>
+<tr class="even">
+<td align="left">COLLEGE POINT</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="left">CORONA</td>
+<td align="right">60</td>
+</tr>
+<tr class="even">
+<td align="left">HOWARD BEACH</td>
+<td align="right">60</td>
 </tr>
 <tr class="odd">
 <td align="left">REGO PARK</td>
-<td align="right">12</td>
+<td align="right">60</td>
 </tr>
 <tr class="even">
-<td align="left">RICHMOND HILL</td>
-<td align="right">12</td>
+<td align="left">FOREST HILLS</td>
+<td align="right">59</td>
 </tr>
 <tr class="odd">
-<td align="left">ROSEDALE</td>
-<td align="right">12</td>
+<td align="left">HOLLIS</td>
+<td align="right">59</td>
 </tr>
 <tr class="even">
-<td align="left">SOUTH RICHMOND HILL</td>
-<td align="right">12</td>
+<td align="left">ROSEDALE</td>
+<td align="right">59</td>
 </tr>
 <tr class="odd">
 <td align="left">WOODHAVEN</td>
-<td align="right">12</td>
+<td align="right">59</td>
 </tr>
 <tr class="even">
 <td align="left">WOODSIDE</td>
-<td align="right">12</td>
+<td align="right">59</td>
 </tr>
 <tr class="odd">
 <td align="left">CAMBRIA HEIGHTS</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">GLEN OAKS</td>
-<td align="right">11</td>
-</tr>
-<tr class="odd">
-<td align="left">JACKSON HEIGHTS</td>
-<td align="right">11</td>
-</tr>
-<tr class="even">
-<td align="left">WHITESTONE</td>
-<td align="right">11</td>
-</tr>
-<tr class="odd">
-<td align="left">ARVERNE</td>
-<td align="right">10</td>
+<td align="right">58</td>
 </tr>
 <tr class="even">
 <td align="left">MASPETH</td>
-<td align="right">10</td>
+<td align="right">58</td>
 </tr>
 <tr class="odd">
-<td align="left">OAKLAND GARDENS</td>
-<td align="right">10</td>
+<td align="left">MIDDLE VILLAGE</td>
+<td align="right">58</td>
 </tr>
 <tr class="even">
-<td align="left">ROCKAWAY PARK</td>
-<td align="right">10</td>
-</tr>
-<tr class="odd">
 <td align="left">SAINT ALBANS</td>
-<td align="right">10</td>
-</tr>
-<tr class="even">
-<td align="left">SOUTH OZONE PARK</td>
-<td align="right">10</td>
+<td align="right">57</td>
 </tr>
 <tr class="odd">
-<td align="left">SUNNYSIDE</td>
-<td align="right">10</td>
+<td align="left">ARVERNE</td>
+<td align="right">56</td>
 </tr>
 <tr class="even">
-<td align="left">LAURELTON</td>
-<td align="right">9</td>
+<td align="left">JACKSON HEIGHTS</td>
+<td align="right">56</td>
+</tr>
+<tr class="odd">
+<td align="left">WHITESTONE</td>
+<td align="right">55</td>
+</tr>
+<tr class="even">
+<td align="left">RICHMOND HILL</td>
+<td align="right">54</td>
+</tr>
+<tr class="odd">
+<td align="left">GLEN OAKS</td>
+<td align="right">52</td>
+</tr>
+<tr class="even">
+<td align="left">SUNNYSIDE</td>
+<td align="right">51</td>
 </tr>
 <tr class="odd">
 <td align="left">ROCKAWAY BEACH</td>
-<td align="right">9</td>
+<td align="right">49</td>
 </tr>
 <tr class="even">
+<td align="left">SOUTH OZONE PARK</td>
+<td align="right">49</td>
+</tr>
+<tr class="odd">
 <td align="left">BREEZY POINT</td>
-<td align="right">8</td>
+<td align="right">47</td>
+</tr>
+<tr class="even">
+<td align="left">SOUTH RICHMOND HILL</td>
+<td align="right">47</td>
 </tr>
 <tr class="odd">
+<td align="left">ROCKAWAY PARK</td>
+<td align="right">40</td>
+</tr>
+<tr class="even">
 <td align="left">DOUGLASTON</td>
-<td align="right">8</td>
-</tr>
-<tr class="even">
-<td align="left">ROCKAWAY POINT</td>
-<td align="right">4</td>
+<td align="right">39</td>
 </tr>
 <tr class="odd">
-<td align="left">BRIARWOOD</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="left">BROAD CHANNEL</td>
-<td align="right">3</td>
-</tr>
-<tr class="odd">
-<td align="left">GLENDALE</td>
-<td align="right">3</td>
+<td align="left">OAKLAND GARDENS</td>
+<td align="right">38</td>
 </tr>
 <tr class="even">
 <td align="left">SPRINGFIELD GARDENS</td>
-<td align="right">3</td>
+<td align="right">30</td>
 </tr>
 <tr class="odd">
-<td align="left">BAYSIDE HILLS</td>
-<td align="right">2</td>
+<td align="left">LAURELTON</td>
+<td align="right">28</td>
+</tr>
+<tr class="even">
+<td align="left">LONG IS CITY</td>
+<td align="right">19</td>
+</tr>
+<tr class="odd">
+<td align="left">BRIARWOOD</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="left">NA</td>
+<td align="right">16</td>
+</tr>
+<tr class="odd">
+<td align="left">ROCKAWAY POINT</td>
+<td align="right">13</td>
 </tr>
 <tr class="even">
 <td align="left">BELLE HARBOR</td>
-<td align="right">2</td>
+<td align="right">11</td>
 </tr>
 <tr class="odd">
-<td align="left">LONG IS CITY</td>
-<td align="right">2</td>
+<td align="left">GLENDALE</td>
+<td align="right">11</td>
 </tr>
 <tr class="even">
-<td align="left">AUBURNDALE</td>
-<td align="right">1</td>
+<td align="left">S RICHMOND HL</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="left">QUEENS VLG</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td align="left">S OZONE PARK</td>
+<td align="right">8</td>
+</tr>
+<tr class="odd">
+<td align="left">BAYSIDE HILLS</td>
+<td align="right">6</td>
+</tr>
+<tr class="even">
+<td align="left">BROAD CHANNEL</td>
+<td align="right">5</td>
 </tr>
 <tr class="odd">
 <td align="left">BEECHHURST</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">KEW GARDENS HILLS</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">NEPONSIT</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">AUBURNDALE</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">BELLEROSE MANOR</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="left">SPRNGFLD GDNS</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td align="left">CALVERTON</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -684,11 +728,11 @@ full_data |&gt;
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">KEW GARDENS HILLS</td>
+<td align="left">MIDDLE VLG</td>
 <td align="right">1</td>
 </tr>
 <tr class="odd">
-<td align="left">S OZONE PARK</td>
+<td align="left">NEW YORK CITY</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
@@ -713,26 +757,50 @@ full_data |&gt;
 <tbody>
 <tr class="odd">
 <td align="left">NEW YORK</td>
-<td align="right">705</td>
+<td align="right">3477</td>
+</tr>
+<tr class="even">
+<td align="left">BRONX</td>
+<td align="right">60</td>
+</tr>
+<tr class="odd">
+<td align="left">BROOKLYN</td>
+<td align="right">59</td>
 </tr>
 <tr class="even">
 <td align="left">NA</td>
-<td align="right">75</td>
+<td align="right">57</td>
 </tr>
 <tr class="odd">
-<td align="left">BRONX</td>
-<td align="right">12</td>
+<td align="left">CANAL STREET</td>
+<td align="right">4</td>
 </tr>
 <tr class="even">
-<td align="left">BROOKLYN</td>
-<td align="right">11</td>
+<td align="left">ROOSEVELT ISL</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="left">ROOSEVELT ISLAND</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="left">BOWLING GREEN</td>
+<td align="right">1</td>
 </tr>
 <tr class="odd">
 <td align="left">BROOKLYN HEIGHTS</td>
 <td align="right">1</td>
 </tr>
 <tr class="even">
-<td align="left">CANAL STREET</td>
+<td align="left">NYC</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="left">SECHEDATY</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="left">WALL STREET</td>
 <td align="right">1</td>
 </tr>
 </tbody>

@@ -39,13 +39,28 @@ zip_code =
   read.csv('data/Zip Codes.csv') |>
   mutate(borough = County.Name)|>
   rename(ZIPCODE = ZipCode)
+
+change_address_2018 = 
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx', sheet = 1)
+change_address_2019 = 
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx', sheet = 2)
+change_address_2020 = 
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx', sheet = 3)
+change_address_2021 = 
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx', sheet = 4)
+change_address_2022 = 
+  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx', sheet = 5)
+
 change_address = 
-  read_excel('data/USPS CHANGE OF ADDRESS NYC.xlsx')|>
+  bind_rows(change_address_2018,change_address_2019,change_address_2020,change_address_2021,change_address_2022)|>
   separate(MONTH, into = c('year','month'), sep = 4)|>
   mutate(
     month = str_replace(month,'\\-',''),
     net_change = `TOTAL PERM IN`- `TOTAL PERM OUT`)
+  
+
 ```
+
 
 The two raw datasets include 'USPS CHANGES OF ADDRESS NYC' and 'Zip Codes'.
 The 'USPS CHANGES OF ADDRESS NYC' shows the aggregate Change of Address (COA) data
