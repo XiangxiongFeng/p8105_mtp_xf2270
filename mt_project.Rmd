@@ -124,6 +124,17 @@ full_data |>
 A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. 
 
 
+```{r}
+full_data |>
+  arrange(net_change)|>
+  head(5)|>
+  select(ZIPCODE, Neighborhood, year, month, net_change)|>
+  knitr::kable()
+```
+
+The table above shows the five lowest values of net change. We can see that all see that all these five observation are made in 2020, which is corresponding to our last table. The neighborhood of three observation are 'Gramercy Park and Murray Hill'.
+
+
 
 
 
