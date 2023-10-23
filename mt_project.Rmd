@@ -111,6 +111,7 @@ There are 60 months between 2018 and 2022. However, some of ZIP codes have fewer
 # problem 2
 
 ```{r}
+#table showing the average of net_change in each borough and year
 full_data |>
   group_by(borough, year)|>
   summarize(Average_net_change = mean(net_change))|>
@@ -121,10 +122,11 @@ full_data |>
   
 ```
 
-A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. 
+A table showing the average of `net_change` in each borough and year is created. From this table, we can see that the overall average net change keeps getting more negative from 2018 and reach an unusual peak around 2020, then it begins to return to normal level. The overall population size is dercreasing.
 
 
 ```{r}
+#a table showing, across all observed data, the five lowest values of net_change
 full_data |>
   arrange(net_change)|>
   head(5)|>
@@ -134,6 +136,27 @@ full_data |>
 
 The table above shows the five lowest values of net change. We can see that all see that all these five observation are made in 2020, which is corresponding to our last table. The neighborhood of three observation are 'Gramercy Park and Murray Hill'.
 
+```{r}
+full_data |>
+  filter(year%in% c('2018', '2019'))|>
+  arrange(desc(net_change))|>
+  head(5)|>
+  select(ZIPCODE, Neighborhood, year, month, net_change)|>
+  knitr::kable()
+```
+The table above shows the five highest values of net change across data observed before 2020.
+
+
+```{r}
+full_data|>
+  group_by(borough, month)|>
+  summarize(Average_Net_Change = mean(net_change))|>
+  ggplot(aes(x= month, y= Average_Net_Change))+ geom_point(aes(color = borough))
+ 
+  
+  
+  
+```
 
 
 
